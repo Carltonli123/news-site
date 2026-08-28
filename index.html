@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Pulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 font-sans">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Mock News Articles (No Database Needed)
+        const ARTICLES = [
+            {
+                id: 1,
+                title: "Global Tech Summit Unveils Next-Gen AI Standards",
+                category: "Tech",
+                date: "Aug 28, 2026",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600",
+                summary: "Industry leaders gather to establish ethical guidelines and performance benchmarks for autonomous systems.",
+                content: "Tech leaders from around the world met today to sign a landmark agreement outlining universal safety protocols for artificial intelligence. The framework focuses on privacy protection, algorithmic transparency, and cross-border data security standards."
+            },
+            {
+                id: 2,
+                title: "Markets Reach Record High Amid Renewable Energy Boom",
+                category: "Business",
+                date: "Aug 27, 2026",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600",
+                summary: "Clean energy stocks rally following breakthrough battery technology announcements.",
+                content: "Financial markets closed at an all-time high today, driven by massive gains in the clean tech sector. Investors cite new solid-state battery manufacturing breakthroughs as the key catalyst for the market surge."
+            },
+            {
+                id: 3,
+                title: "New Deep Space Telescope Captures Unprecedented Cosmic Event",
+                category: "Science",
+                date: "Aug 26, 2026",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600",
+                summary: "Astronomers observe the birth of a binary star system in real time.",
+                content: "Scientists analyzing data from the latest orbital observatory have documented a rare cosmic spectacle. Images released early this morning show the formation of a twin star system located 1,200 light-years away."
+            }
+        ];
+
+        function App() {
+            const [selectedCategory, setSelectedCategory] = React.useState("All");
+            const [activeArticle, setActiveArticle] = React.useState(null);
+
+            const categories = ["All", "Tech", "Business", "Science"];
+
+            const filteredArticles = selectedCategory === "All"
+                ? ARTICLES
+                : ARTICLES.filter(a => a.category === selectedCategory);
+
+            return (
+                <div class="min-h-screen flex flex-col">
+                    {/* Header */}
+                    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+                        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+                            <h1 class="text-3xl font-serif font-bold tracking-tight">THE DAILY PULSE</h1>
+                            <span class="text-sm text-gray-500">Aug 28, 2026</span>
+                        </div>
+                        {/* Category Navigation */}
+                        <nav class="bg-gray-50 border-t border-gray-200">
+                            <div class="max-w-5xl mx-auto px-4 flex space-x-6">
+                                {categories.map(cat => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => setSelectedCategory(cat)}
+                                        class={`py-2 text-sm font-medium border-b-2 transition-colors ${selectedCategory === cat
+                                                ? "border-black text-black"
+                                                : "border-transparent text-gray-500 hover:text-black"
+                                            }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+                        </nav>
+                    </header>
+
+                    {/* Main Content */}
+                    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {filteredArticles.map(article => (
+                                <article key={article.id} class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 flex flex-col">
+                                    <img src={article.image} alt={article.title} class="w-full h-48 object-cover" />
+                                    <div class="p-5 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                                <span class="font-semibold uppercase tracking-wider text-blue-600">{article.category}</span>
+                                                <span>{article.date}</span>
+                                            </div>
+                                            <h2 class="text-xl font-serif font-bold mb-2 hover:text-gray-700 cursor-pointer" onClick={() => setActiveArticle(article)}>
+                                                {article.title}
+                                            </h2>
+                                            <p class="text-gray-600 text-sm mb-4">{article.summary}</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setActiveArticle(article)}
+                                            class="text-sm font-semibold text-black hover:underline text-left">
+                                            Read Full Story →
+                                        </button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </main>
+
+                    {/* Article Modal View */}
+                    {activeArticle && (
+                        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                                <button
+                                    onClick={() => setActiveArticle(null)}
+                                    class="absolute top-4 right-4 text-gray-500 hover:text-black font-bold">
+                                    ✕
+                                </button>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">{activeArticle.category}</span>
+                                <h2 class="text-2xl font-serif font-bold mt-1 mb-2">{activeArticle.title}</h2>
+                                <p class="text-xs text-gray-400 mb-4">{activeArticle.date}</p>
+                                <img src={activeArticle.image} alt={activeArticle.title} class="w-full h-64 object-cover rounded mb-4" />
+                                <p class="text-gray-800 leading-relaxed">{activeArticle.content}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Footer */}
+                    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+                        © 2026 The Daily Pulse. Built with React & Tailwind.
+                    </footer>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
