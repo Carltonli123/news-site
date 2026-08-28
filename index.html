@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Daily Pulse</title>
+    <!-- Tailwind CSS, React, and Babel via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -14,10 +15,8 @@
 <body class="bg-gray-100 text-gray-900 font-sans">
     <div id="root"></div>
 
-    <div id="ad-slot-6a916fb5c26b1153dc4587e4"></div>
-    <script src="https://ad-server-rho.vercel.app/ad-script.js" data-ad-id="6a916fb5c26b1153dc4587e4" async></script>
     <script type="text/babel">
-        // Mock News Articles (No Database Needed)
+        // Mock News Articles
         const ARTICLES = [
             {
                 id: 1,
@@ -52,6 +51,21 @@
             const [selectedCategory, setSelectedCategory] = React.useState("All");
             const [activeArticle, setActiveArticle] = React.useState(null);
 
+            // Mount the ad script when React loads
+            React.useEffect(() => {
+                const script = document.createElement('script');
+                script.src = "https://ad-server-rho.vercel.app/ad-script.js";
+                script.setAttribute('data-ad-id', '6a916fb5c26b1153dc4587e4');
+                script.async = true;
+                document.body.appendChild(script);
+
+                return () => {
+                    if (document.body.contains(script)) {
+                        document.body.removeChild(script);
+                    }
+                };
+            }, []);
+
             const categories = ["All", "Tech", "Business", "Science"];
 
             const filteredArticles = selectedCategory === "All"
@@ -74,8 +88,8 @@
                                         key={cat}
                                         onClick={() => setSelectedCategory(cat)}
                                         class={`py-2 text-sm font-medium border-b-2 transition-colors ${selectedCategory === cat
-                                                ? "border-black text-black"
-                                                : "border-transparent text-gray-500 hover:text-black"
+                                            ? "border-black text-black"
+                                            : "border-transparent text-gray-500 hover:text-black"
                                             }`}
                                     >
                                         {cat}
@@ -87,6 +101,10 @@
 
                     {/* Main Content */}
                     <main class="max-w-5xl mx-auto px-4 py-8 flex-grow">
+                        {/* AD BANNER CONTAINER */}
+                        <div id="ad-slot-6a916fb5c26b1153dc4587e4" class="mb-8"></div>
+
+                        {/* Articles Grid */}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {filteredArticles.map(article => (
                                 <article key={article.id} class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 flex flex-col">
