@@ -10,6 +10,26 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 1. In your <head> -->
+    <script type="text/javascript">
+        window._taboola = window._taboola || [];
+        _taboola.push({ article: 'auto' });
+        !function (e, f, u, i) {
+            if (!document.getElementById(i)) {
+                e.async = 1;
+                e.src = u;
+                e.id = i;
+                f.parentNode.insertBefore(e, f);
+            }
+        }(
+            document.createElement('script'),
+            document.getElementsByTagName('script')[0],
+            'https://cdn.taboola.com/libtrc/creative-test/loader.js',
+            'tb_loader_script'
+        );
+    </script>
+    
 </head>
 
 <body class="bg-gray-100 text-gray-900 font-sans">
@@ -46,6 +66,21 @@
                 content: "Scientists analyzing data from the latest orbital observatory have documented a rare cosmic spectacle. Images released early this morning show the formation of a twin star system located 1,200 light-years away."
             }
         ];
+
+        function TaboolaBelowArticleThumbnails() {
+            React.useEffect(() => {
+                window._taboola = window._taboola || [];
+                _taboola.push({
+                    mode: 'thumbnails-a',
+                    container: 'taboola-below-article-thumbnails',
+                    placement: 'Below Article Thumbnails',
+                    target_type: 'mix'
+                });
+                _taboola.push({ flush: true });
+            }, []);
+
+            return <div id="taboola-below-article-thumbnails" class="mt-8" />;
+        }
 
         function App() {
             const [selectedCategory, setSelectedCategory] = React.useState("All");
@@ -129,6 +164,8 @@
                                 </article>
                             ))}
                         </div>
+
+                        <TaboolaBelowArticleThumbnails />
                     </main>
 
                     {/* Article Modal View */}
