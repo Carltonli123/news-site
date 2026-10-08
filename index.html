@@ -66,6 +66,26 @@
                 content: "Scientists analyzing data from the latest orbital observatory have documented a rare cosmic spectacle. Images released early this morning show the formation of a twin star system located 1,200 light-years away."
             }
         ];
+        // adding 1200x674 Widget
+        function Taboola1200x674Widget() {
+                React.useEffect(() => {
+                    window._taboola = window._taboola || [];
+                    _taboola.push({
+                        mode: 'thumbnails-a', // or your designated 1x1 / billboard mode provided by Taboola
+                        container: 'taboola-mid-article-1200x674',
+                        placement: 'Mid Article 1200x674',
+                        target_type: 'mix'
+                    });
+                    _taboola.push({ flush: true });
+                }, []);
+
+                return (
+                    <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
+                        {/* Taboola Target Container */}
+                        <div id="taboola-mid-article-1200x674" className="w-full" />
+                    </div>
+                );
+            }
 
         function TaboolaBelowArticleThumbnails() {
             React.useEffect(() => {
@@ -138,6 +158,8 @@
                     <main class="max-w-5xl mx-auto px-4 py-8 flex-grow">
                         {/* AD BANNER CONTAINER */}
                         <div id="ad-slot-6a916fb5c26b1153dc4587e4" class="mb-8"></div>
+
+                        <Taboola1200x674Widget />
 
                         {/* Articles Grid */}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
