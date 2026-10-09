@@ -4,219 +4,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Daily Pulse</title>
-    <!-- Tailwind CSS, React, and Babel via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Taboola Widget Test Page</title>
+    <!-- Tailwind CSS -->
+    <script src="<redacted URL>"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="<redacted URL>"></script>
+    <script crossorigin src="<redacted URL>"></script>
+    <!-- Babel for in-browser JSX compilation -->
+    <script src="<redacted URL>"></script>
 
-    <!-- 1. In your <head> -->
+    <!-- Taboola JS Tag Loader -->
     <script type="text/javascript">
         window._taboola = window._taboola || [];
-        _taboola.push({ article: 'auto' });
-        !function (e, f, u, i) {
+        _taboola['sync'] = 'async';
+        _taboola['cdn'] = 'cdn.taboola.com';
+        (function (e, f, u, i) {
             if (!document.getElementById(i)) {
                 e.async = 1;
                 e.src = u;
                 e.id = i;
                 f.parentNode.insertBefore(e, f);
             }
-        }(
-            document.createElement('script'),
+        })(document.createElement('script'),
             document.getElementsByTagName('script')[0],
-            'https://cdn.taboola.com/libtrc/creative-test/loader.js',
-            'tb_loader_script'
-        );
+            '<redacted URL>',
+            'tb_loader_script');
+        if (window.performance && typeof window.performance.mark == 'function') { window.performance.mark('tbl_ic'); }
     </script>
-    
 </head>
 
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
     <div id="root"></div>
 
     <script type="text/babel">
-        // Mock News Articles
-        const ARTICLES = [
-            {
-                id: 1,
-                title: "Global Tech Summit Unveils Next-Gen AI Standards",
-                category: "Tech",
-                date: "Aug 28, 2026",
-                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600",
-                summary: "Industry leaders gather to establish ethical guidelines and performance benchmarks for autonomous systems.",
-                content: "Tech leaders from around the world met today to sign a landmark agreement outlining universal safety protocols for artificial intelligence. The framework focuses on privacy protection, algorithmic transparency, and cross-border data security standards."
-            },
-            {
-                id: 2,
-                title: "Markets Reach Record High Amid Renewable Energy Boom",
-                category: "Business",
-                date: "Aug 27, 2026",
-                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600",
-                summary: "Clean energy stocks rally following breakthrough battery technology announcements.",
-                content: "Financial markets closed at an all-time high today, driven by massive gains in the clean tech sector. Investors cite new solid-state battery manufacturing breakthroughs as the key catalyst for the market surge."
-            },
-            {
-                id: 3,
-                title: "New Deep Space Telescope Captures Unprecedented Cosmic Event",
-                category: "Science",
-                date: "Aug 26, 2026",
-                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600",
-                summary: "Astronomers observe the birth of a binary star system in real time.",
-                content: "Scientists analyzing data from the latest orbital observatory have documented a rare cosmic spectacle. Images released early this morning show the formation of a twin star system located 1,200 light-years away."
-            }
-        ];
-        // adding 1200x674 Widget
-        function Taboola1200x674Widget() {
-                React.useEffect(() => {
-                    window._taboola = window._taboola || [];
-                    _taboola.push({
-                        mode: 'thumbnails-a', // or your designated 1x1 / billboard mode provided by Taboola
-                        container: 'taboola-mid-article-1200x674',
-                        placement: 'Mid Article 1200x674',
-                        target_type: 'mix'
-                    });
-                    _taboola.push({ flush: true });
-                }, []);
-
-                return (
-                    <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
-                        {/* Taboola Target Container */}
-                        <div id="taboola-mid-article-1200x674" className="w-full" />
+        // Header Component
+        function Header() {
+            return (
+                <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+                    <div className="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+                        <div className="flex items-center space-x-2">
+                            <span className="text-xl font-black tracking-tight text-blue-600">NEWS<span className="text-gray-900">DAILY</span></span>
+                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded border border-gray-200">Test Portal</span>
+                        </div>
+                        <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+                            <a href="#" className="hover:text-blue-600">Home</a>
+                            <a href="#" className="hover:text-blue-600">Tech</a>
+                            <a href="#" className="hover:text-blue-600">Business</a>
+                            <a href="#" className="hover:text-blue-600">Lifestyle</a>
+                        </nav>
                     </div>
-                );
-            }
+                </header>
+            );
+        }
 
-        function TaboolaBelowArticleThumbnails() {
+        // Taboola Dynamic Placement Widget (Pure Taboola Tag / Preview Integration)
+        function TaboolaDynamicPlacementWidget({ containerId, placement, mode, targetType = 'mix' }) {
             React.useEffect(() => {
                 window._taboola = window._taboola || [];
                 _taboola.push({
-                    mode: 'thumbnails-a',
-                    container: 'taboola-below-article-thumbnails',
-                    placement: 'Below Article Thumbnails',
-                    target_type: 'mix'
+                    mode: mode,
+                    container: containerId,
+                    placement: placement,
+                    target_type: targetType
                 });
                 _taboola.push({ flush: true });
-            }, []);
-
-            return <div id="taboola-below-article-thumbnails" class="mt-8" />;
-        }
-
-        function App() {
-            const [selectedCategory, setSelectedCategory] = React.useState("All");
-            const [activeArticle, setActiveArticle] = React.useState(null);
-
-            // Mount the ad script when React loads
-            React.useEffect(() => {
-                const script = document.createElement('script');
-                script.src = "https://ad-server-rho.vercel.app/ad-script.js";
-                script.setAttribute('data-ad-id', '6a916fb5c26b1153dc4587e4');
-                script.async = true;
-                document.body.appendChild(script);
-
-                return () => {
-                    if (document.body.contains(script)) {
-                        document.body.removeChild(script);
-                    }
-                };
-            }, []);
-
-            const categories = ["All", "Tech", "Business", "Science"];
-
-            const filteredArticles = selectedCategory === "All"
-                ? ARTICLES
-                : ARTICLES.filter(a => a.category === selectedCategory);
+            }, [containerId, placement, mode, targetType]);
 
             return (
-                <div class="min-h-screen flex flex-col">
-                    {/* Header */}
-                    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
-                        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-                            <h1 class="text-3xl font-serif font-bold tracking-tight">THE DAILY PULSE</h1>
-                            <span class="text-sm text-gray-500">Aug 28, 2026</span>
+                <div className="w-full max-w-[1200px] mx-auto mb-8 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                    {/* Taboola Target Container - Pure empty container populated dynamically by TRC / loader.js */}
+                    <div id={containerId} className="w-full min-h-[300px]"></div>
+                </div>
+            );
+        }
+
+        // Main Article Component
+        function Article() {
+            return (
+                <article className="bg-white p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200 mb-8">
+                    <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 mb-3">
+                        Technology & AdTech
+                    </div>
+                    <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
+                        Understanding Modern Ad Creatives & Real-Time Video Serving
+                    </h1>
+                    <div className="flex items-center text-xs text-gray-400 mb-6 space-x-4 border-b border-gray-100 pb-4">
+                        <span>By Tech Editorial Desk</span>
+                        <span>•</span>
+                        <span>Updated Today</span>
+                        <span>•</span>
+                        <span>3 min read</span>
+                    </div>
+
+                    <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">
+                        Digital advertising technology continues to evolve rapidly with server-to-server attribution,
+                        dynamic creative injection, and automated preview tooling. Modern publisher tags load creatives asynchronously
+                        via creative preview parameters passed directly through the page URL.
+                    </p>
+
+                    <p className="text-base text-gray-600 leading-relaxed mb-4">
+                        When testing live preview instructions (<code className="bg-gray-100 px-1 py-0.5 rounded text-xs text-red-600 font-mono">trc_preview_instruction_id</code>),
+                        the Taboola JavaScript tag (<code className="bg-gray-100 px-1 py-0.5 rounded text-xs text-gray-800 font-mono">loader.js</code>) intercepts the query parameters,
+                        contacts the preview syndicator engine, and replaces the container contents with the designated video player and hosted MP4 creative automatically.
+                    </p>
+                </article>
+            );
+        }
+
+        // URL Parameters Debug Info Banner
+        function UrlParamsDebugInfo() {
+            const [params, setParams] = React.useState({});
+
+            React.useEffect(() => {
+                const searchParams = new URLSearchParams(window.location.search);
+                const extracted = {};
+                for (const [key, value] of searchParams.entries()) {
+                    extracted[key] = value;
+                }
+                setParams(extracted);
+            }, []);
+
+            const hasPreviewParams = params.trc_preview_instruction_id || params.trc_preview_syndicator_id;
+
+            return (
+                <div className={`p-4 rounded-lg border mb-8 text-xs font-mono ${hasPreviewParams ? 'bg-green-50 border-green-200 text-green-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                    <div className="font-bold flex items-center justify-between mb-2">
+                        <span>Taboola Preview Parameter Status:</span>
+                        <span className={`px-2 py-0.5 rounded text-[11px] font-sans ${hasPreviewParams ? 'bg-green-200 text-green-800 font-semibold' : 'bg-amber-200 text-amber-800'}`}>
+                            {hasPreviewParams ? 'Preview Active' : 'No Preview Params Detected'}
+                        </span>
+                    </div>
+                    {hasPreviewParams ? (
+                        <div className="space-y-1">
+                            <div><strong>trc_preview_syndicator_id:</strong> {params.trc_preview_syndicator_id || 'Not set'}</div>
+                            <div><strong>trc_preview_instruction_id:</strong> {params.trc_preview_instruction_id || 'Not set'}</div>
+                            <div><strong>tbl_disable_cache:</strong> {params.tbl_disable_cache || 'Not set'}</div>
                         </div>
-                        {/* Category Navigation */}
-                        <nav class="bg-gray-50 border-t border-gray-200">
-                            <div class="max-w-5xl mx-auto px-4 flex space-x-6">
-                                {categories.map(cat => (
-                                    <button
-                                        key={cat}
-                                        onClick={() => setSelectedCategory(cat)}
-                                        class={`py-2 text-sm font-medium border-b-2 transition-colors ${selectedCategory === cat
-                                            ? "border-black text-black"
-                                            : "border-transparent text-gray-500 hover:text-black"
-                                            }`}
-                                    >
-                                        {cat}
-                                    </button>
-                                ))}
-                            </div>
-                        </nav>
-                    </header>
-
-                    {/* Main Content */}
-                    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow">
-                        {/* AD BANNER CONTAINER */}
-                        <div id="ad-slot-6a916fb5c26b1153dc4587e4" class="mb-8"></div>
-
-                        <Taboola1200x674Widget />
-
-                        {/* Articles Grid */}
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {filteredArticles.map(article => (
-                                <article key={article.id} class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 flex flex-col">
-                                    <img src={article.image} alt={article.title} class="w-full h-48 object-cover" />
-                                    <div class="p-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
-                                                <span class="font-semibold uppercase tracking-wider text-blue-600">{article.category}</span>
-                                                <span>{article.date}</span>
-                                            </div>
-                                            <h2 class="text-xl font-serif font-bold mb-2 hover:text-gray-700 cursor-pointer" onClick={() => setActiveArticle(article)}>
-                                                {article.title}
-                                            </h2>
-                                            <p class="text-gray-600 text-sm mb-4">{article.summary}</p>
-                                        </div>
-                                        <button
-                                            onClick={() => setActiveArticle(article)}
-                                            class="text-sm font-semibold text-black hover:underline text-left">
-                                            Read Full Story →
-                                        </button>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-
-                        <TaboolaBelowArticleThumbnails />
-                    </main>
-
-                    {/* Article Modal View */}
-                    {activeArticle && (
-                        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
-                                <button
-                                    onClick={() => setActiveArticle(null)}
-                                    class="absolute top-4 right-4 text-gray-500 hover:text-black font-bold">
-                                    ✕
-                                </button>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">{activeArticle.category}</span>
-                                <h2 class="text-2xl font-serif font-bold mt-1 mb-2">{activeArticle.title}</h2>
-                                <p class="text-xs text-gray-400 mb-4">{activeArticle.date}</p>
-                                <img src={activeArticle.image} alt={activeArticle.title} class="w-full h-64 object-cover rounded mb-4" />
-                                <p class="text-gray-800 leading-relaxed">{activeArticle.content}</p>
-                            </div>
+                    ) : (
+                        <div>
+                            To preview your video creative dynamically via Taboola TRC, append your query string:
+                            <br />
+                            <code className="text-amber-800 break-all select-all font-bold">
+                                ?tbl_disable_cache=true&trc_preview_syndicator_id=2107468&trc_preview_instruction_id=4363567569
+                            </code>
                         </div>
                     )}
+                </div>
+            );
+        }
 
-                    {/* Footer */}
-                    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
-                        © 2026 The Daily Pulse. Built with React & Tailwind.
+        // App Component
+        function App() {
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <Header />
+
+                    <main className="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+                        {/* URL Params Debug Banner */}
+                        <UrlParamsDebugInfo />
+
+                        {/* Article Content */}
+                        <Article />
+
+                        {/* Taboola Video / Creative Placement Container */}
+                        {/* Taboola's loader.js and TRC engine populate this container dynamically */}
+                        <TaboolaDynamicPlacementWidget
+                            containerId="taboola-mid-article-video"
+                            placement="Mid Article Video"
+                            mode="thumbnails-stream"
+                            targetType="video"
+                        />
+                    </main>
+
+                    <footer className="bg-white border-t border-gray-200 py-6 text-center text-xs text-gray-400">
+                        Taboola Creative Preview Testing Environment &copy; 2026
                     </footer>
                 </div>
             );
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 
