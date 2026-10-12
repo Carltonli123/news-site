@@ -25,7 +25,7 @@
         }(
             document.createElement('script'),
             document.getElementsByTagName('script')[0],
-            'https://cdn.taboola.com/libtrc/creative-test/loader.js',
+            'https://cdn.taboola.com/libtrc/2124825/loader.js',
             'tb_loader_script'
         );
     </script>
@@ -66,26 +66,28 @@
                 content: "Scientists analyzing data from the latest orbital observatory have documented a rare cosmic spectacle. Images released early this morning show the formation of a twin star system located 1,200 light-years away."
             }
         ];
-        // adding 1200x674 Widget
-        function Taboola1200x674Widget() {
-            React.useEffect(() => {
-                window._taboola = window._taboola || [];
-                _taboola.push({
-                    mode: 'thumbnails-a', // or your designated 1x1 / billboard mode provided by Taboola
-                    container: 'taboola-mid-article-1200x674',
-                    placement: 'Mid Article 1200x674',
-                    target_type: 'mix'
-                });
-                _taboola.push({ flush: true });
-            }, []);
 
-            return (
-                <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
-                    {/* Taboola Target Container */}
-                    <div id="taboola-mid-article-1200x674" className="w-full" />
-                </div>
-            );
-        }
+                // adding 1200x674 Widget
+                    function Taboola1200x674Widget() {
+                        React.useEffect(() => {
+                            window._taboola = window._taboola || [];
+                            _taboola.push({
+                                mode: 'stream-video', // Match the exact "UI Mode" from Widget Creator
+                                container: 'taboola-mid-article-1200x674',
+                                placement: 'Stream Video Placement', // Match the exact "Placement" name from Widget Creator
+                                target_type: 'mix'
+                            });
+                            _taboola.push({ flush: true });
+                        }, []);
+
+                        return (
+                            <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
+                                {/* Taboola Target Container */}
+                                <div id="taboola-mid-article-1200x674" className="w-full" />
+                            </div>
+                        );
+                    }
+
 
         function TaboolaBelowArticleThumbnails() {
             React.useEffect(() => {
@@ -187,8 +189,8 @@
                             ))}
                         </div>
 
-                        <TaboolaBelowArticleThumbnails />
-                    </main>
+                         {/* <TaboolaBelowArticleThumbnails /> */}
+                     </main>
 
                     {/* Article Modal View */}
                     {activeArticle && (
