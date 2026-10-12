@@ -101,7 +101,7 @@
                 _taboola.push({ flush: true });
             }, []);
 
-            return <div id="taboola-below-article-thumbnails" class="mt-8" />;
+            return <div id="taboola-below-article-thumbnails" className="mt-8" />;
         }
 
         function App() {
@@ -130,25 +130,24 @@
                 : ARTICLES.filter(a => a.category === selectedCategory);
 
             return (
-                <div class="min-h-screen flex flex-col">
+                <div className="min-h-screen flex flex-col">
                     {/* Header */}
-                    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
-                        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-                            <h1 class="text-3xl font-serif font-bold tracking-tight">THE DAILY PULSE</h1>
-                            <span class="text-sm text-gray-500">Aug 28, 2026</span>
+                    <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+                        <div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+                            <h1 className="text-3xl font-serif font-bold tracking-tight">THE DAILY PULSE</h1>
+                            <span className="text-sm text-gray-500">Aug 28, 2026</span>
                         </div>
                         {/* Category Navigation */}
-                        <nav class="bg-gray-50 border-t border-gray-200">
-                            <div class="max-w-5xl mx-auto px-4 flex space-x-6">
+                        <nav className="bg-gray-50 border-t border-gray-200">
+                            <div className="max-w-5xl mx-auto px-4 flex space-x-6">
                                 {categories.map(cat => (
                                     <button
                                         key={cat}
                                         onClick={() => setSelectedCategory(cat)}
-                                        class={`py-2 text-sm font-medium border-b-2 transition-colors ${selectedCategory === cat
+                                        className={`py-2 text-sm font-medium border-b-2 transition-colors ${selectedCategory === cat
                                             ? "border-black text-black"
                                             : "border-transparent text-gray-500 hover:text-black"
-                                            }`}
-                                    >
+                                            }`}>
                                         {cat}
                                     </button>
                                 ))}
@@ -157,31 +156,31 @@
                     </header>
 
                     {/* Main Content */}
-                    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow">
+                    <main className="max-w-5xl mx-auto px-4 py-8 flex-grow">
                         {/* AD BANNER CONTAINER */}
-                        <div id="ad-slot-6a916fb5c26b1153dc4587e4" class="mb-8"></div>
+                        <div id="ad-slot-6a916fb5c26b1153dc4587e4" className="mb-8"></div>
 
                         <Taboola1200x674Widget />
 
                         {/* Articles Grid */}
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {filteredArticles.map(article => (
-                                <article key={article.id} class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 flex flex-col">
-                                    <img src={article.image} alt={article.title} class="w-full h-48 object-cover" />
-                                    <div class="p-5 flex-grow flex flex-col justify-between">
+                                <article key={article.id} className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 flex flex-col">
+                                    <img src={article.image} alt={article.title} className="w-full h-48 object-cover" />
+                                    <div className="p-5 flex-grow flex flex-col justify-between">
                                         <div>
-                                            <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
-                                                <span class="font-semibold uppercase tracking-wider text-blue-600">{article.category}</span>
+                                            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                                <span className="font-semibold uppercase tracking-wider text-blue-600">{article.category}</span>
                                                 <span>{article.date}</span>
                                             </div>
-                                            <h2 class="text-xl font-serif font-bold mb-2 hover:text-gray-700 cursor-pointer" onClick={() => setActiveArticle(article)}>
+                                            <h2 className="text-xl font-serif font-bold mb-2 hover:text-gray-700 cursor-pointer" onClick={() => setActiveArticle(article)}>
                                                 {article.title}
                                             </h2>
-                                            <p class="text-gray-600 text-sm mb-4">{article.summary}</p>
+                                            <p className="text-gray-600 text-sm mb-4">{article.summary}</p>
                                         </div>
                                         <button
                                             onClick={() => setActiveArticle(article)}
-                                            class="text-sm font-semibold text-black hover:underline text-left">
+                                            className="text-sm font-semibold text-black hover:underline text-left">
                                             Read Full Story →
                                         </button>
                                     </div>
@@ -194,24 +193,24 @@
 
                     {/* Article Modal View */}
                     {activeArticle && (
-                        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
                                 <button
                                     onClick={() => setActiveArticle(null)}
-                                    class="absolute top-4 right-4 text-gray-500 hover:text-black font-bold">
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-black font-bold">
                                     ✕
                                 </button>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">{activeArticle.category}</span>
-                                <h2 class="text-2xl font-serif font-bold mt-1 mb-2">{activeArticle.title}</h2>
-                                <p class="text-xs text-gray-400 mb-4">{activeArticle.date}</p>
-                                <img src={activeArticle.image} alt={activeArticle.title} class="w-full h-64 object-cover rounded mb-4" />
-                                <p class="text-gray-800 leading-relaxed">{activeArticle.content}</p>
+                                <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">{activeArticle.category}</span>
+                                <h2 className="text-2xl font-serif font-bold mt-1 mb-2">{activeArticle.title}</h2>
+                                <p className="text-xs text-gray-400 mb-4">{activeArticle.date}</p>
+                                <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-64 object-cover rounded mb-4" />
+                                <p className="text-gray-800 leading-relaxed">{activeArticle.content}</p>
                             </div>
                         </div>
                     )}
 
                     {/* Footer */}
-                    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+                    <footer className="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500">
                         © 2026 The Daily Pulse. Built with React & Tailwind.
                     </footer>
                 </div>
