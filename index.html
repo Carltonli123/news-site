@@ -67,26 +67,26 @@
             }
         ];
 
-                // adding 1200x674 Widget
-                    function Taboola1200x674Widget() {
-                        React.useEffect(() => {
-                            window._taboola = window._taboola || [];
-                            _taboola.push({
-                                mode: 'stream-video', // Match the exact "UI Mode" from Widget Creator
-                                container: 'taboola-mid-article-1200x674',
-                                placement: 'Stream Video Placement', // Match the exact "Placement" name from Widget Creator
-                                target_type: 'mix'
-                            });
-                            _taboola.push({ flush: true });
-                        }, []);
+    // Taboola Stream Video Widget
+    function Taboola1200x674Widget() {
+        React.useEffect(() => {
+            window._taboola = window._taboola || [];
+            _taboola.push({
+                mode: 'video-thumbnails',
+                container: 'taboola-stream-video-placement',
+                placement: 'Stream Video Placement',
+                target_type: 'mix'
+            });
+            _taboola.push({ flush: true });
+        }, []);
 
-                        return (
-                            <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
-                                {/* Taboola Target Container */}
-                                <div id="taboola-mid-article-1200x674" className="w-full" />
-                            </div>
-                        );
-                    }
+        return (
+            <div className="w-full max-w-[1200px] mx-auto mb-8 overflow-hidden">
+                <div id="taboola-stream-video-placement" className="w-full" />
+            </div>
+        );
+    }
+
 
 
         function TaboolaBelowArticleThumbnails() {
